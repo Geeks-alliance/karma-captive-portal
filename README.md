@@ -24,6 +24,7 @@ karma attack And captive portal </br>
 [mana-toolkit](https://github.com/sensepost/mana) </br>
 [hostapd-mana](https://github.com/sensepost/hostapd-mana) </br>
 [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) </br>
+[@EastwindZL](https://github.com/EastwindZL) (测试者) </br>
 
 ## ENGLISH VERSION
 [Click me!](https://github.com/nios34/karma-captive-portal/blob/master/README-EN.md)
