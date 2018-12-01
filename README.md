@@ -18,6 +18,7 @@ karma attack And captive portal </br>
  * arm设备需要自行编译出hostapd放到"hostapd目录"下 </br>
  * 必须Root运行 网卡支持hostapd-mana </br>
  * 必须在桌面环境下运行 如果是xfac4 kde请把karma脚本的gnome-terminal换成你的终端!
+ * 把你的captive portal 放在 /var/www/
 
 ## 鸣谢
 [mana-toolkit](https://github.com/sensepost/mana) </br>
