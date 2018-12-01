@@ -9,7 +9,7 @@ karma attack And captive portal </br>
 `git clone https://github.com/nios34/karma-captive-portal && cd karma-captive-portal/bin` </br>
 
 ## Usage
-`./karma [Option] "Built-in interface" "Wireless card interface" ` </br>
+`./karma [Option] "Internet interface" "Wireless card interface" ` </br>
 Option: </br>
 > -web Start captive portal </br>
 
