@@ -26,3 +26,4 @@ Option: </br>
 [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) </br>
 
 ## 中文版
+[点我跳转](https://github.com/nios34/karma-captive-portal/blob/master/README.md)
