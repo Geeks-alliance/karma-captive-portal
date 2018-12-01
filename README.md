@@ -19,8 +19,8 @@ arm设备需要自行编译出hostapd放到"hostapd目录"下 </br>
 必须Root运行 网卡支持hostapd-mana </br>
 
 ## 鸣谢
-(mana-toolkit)[https://github.com/sensepost/mana] </br>
-(hostapd-mana)[https://github.com/sensepost/hostapd-mana] </br>
+(https://github.com/sensepost/mana)[mana-toolkit] </br>
+(https://github.com/sensepost/hostapd-mana)[hostapd-mana] </br>
 dnsmasq </br>
 
 
