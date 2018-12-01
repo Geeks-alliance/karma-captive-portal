@@ -6,7 +6,7 @@ karma attack And captive portal </br>
 
 ## 安装方法
 `apt-get install mana-toolkit lighttpd nginx` </br>
-`git clone https://github.com/nios34/karma-captive-portal` </br>
+`git clone https://github.com/nios34/karma-captive-portal && cd karma-captive-portal` </br>
 
 ## 运行方法
 `./karma [选项] 内置接口 外接网卡 ` </br>
