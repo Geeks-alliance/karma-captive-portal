@@ -14,13 +14,13 @@ karma attack And captive portal </br>
   -web 启动captive portal (否则客户端可以联网) </br>
 
 ## 注意 
-不支持使用相对路径或绝对路径运行! </br>
-arm设备需要自行编译出hostapd放到"hostapd目录"下 </br>
-必须Root运行 网卡支持hostapd-mana </br>
+ * 不支持使用相对路径或绝对路径运行! </br>
+ * arm设备需要自行编译出hostapd放到"hostapd目录"下 </br>
+ * 必须Root运行 网卡支持hostapd-mana </br>
 
 ## 鸣谢
-(https://github.com/sensepost/mana)[mana-toolkit] </br>
-(https://github.com/sensepost/hostapd-mana)[hostapd-mana] </br>
+[mana-toolkit](https://github.com/sensepost/mana) </br>
+[hostapd-mana](https://github.com/sensepost/hostapd-mana) </br>
 dnsmasq </br>
 
 
