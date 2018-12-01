@@ -9,7 +9,7 @@ karma attack And captive portal </br>
 `git clone https://github.com/nios34/karma-captive-portal && cd karma-captive-portal/bin` </br>
 
 ## 运行方法
-`./karma [选项] 内置接口 外接网卡 ` </br>
+`./karma [选项] 互联网接口 外接网卡 ` </br>
 选项: </br>
 > -web 启动captive portal (否则客户端可以联网) </br>
 
@@ -19,6 +19,7 @@ karma attack And captive portal </br>
  * 必须Root运行 网卡支持hostapd-mana </br>
  * 必须在桌面环境下运行 如果是xfac4 kde请把karma脚本的gnome-terminal换成你的终端!
  * 把你的captive portal 放在 /var/www/
+ * 互联网接口可以没有网络链接
 
 ## 鸣谢
 [mana-toolkit](https://github.com/sensepost/mana) </br>
