@@ -19,6 +19,7 @@ Option: </br>
  * Must be root running Wireless card support hostapd-mana </br>
  * Must be run in the desktop environment If it is xfac4 or kde, please replace the gorme-terminal of the karma script with your terminal! </br>
  * Put your captive portal in /var/www/ </br>
+ * Internet interface can have no network
 
 ## Acknowledgement
 [mana-toolkit](https://github.com/sensepost/mana) </br>
