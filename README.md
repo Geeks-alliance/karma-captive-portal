@@ -26,4 +26,4 @@ karma attack And captive portal </br>
 [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) </br>
 
 ## ENGLISH VERSION
-https://github.com/nios34/karma-captive-portal/blob/master/README-EN.md
+[Click me!](https://github.com/nios34/karma-captive-portal/blob/master/README-EN.md)
