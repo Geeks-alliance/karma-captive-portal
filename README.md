@@ -21,6 +21,6 @@ karma attack And captive portal </br>
 ## 鸣谢
 [mana-toolkit](https://github.com/sensepost/mana) </br>
 [hostapd-mana](https://github.com/sensepost/hostapd-mana) </br>
-dnsmasq </br>
+[dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) </br>
 
 
