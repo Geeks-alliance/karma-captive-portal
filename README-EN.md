@@ -17,7 +17,7 @@ Option: </br>
  * Does not support running with relative or absolute paths! </br>
  * The arm device needs to compile hostapd and put it under the "hostapd directory" </br>
  * Must be root running NIC support hostapd-mana </br>
- * Must be run in the desktop environment If it is xfac4 or kde, please replace the gorme-terminal of the karma script with your terminal! </br>
+ * Must be run in the desktop environment If it is xfac4 or kde, please replace the gorme-terminal of the karma script with your terminal! </br>
  * Put your captive portal in /var/www/ </br>
 
 ## Acknowledgement
