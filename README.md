@@ -25,6 +25,7 @@ karma attack And captive portal </br>
 [mana-toolkit](https://github.com/sensepost/mana) </br>
 [hostapd-mana](https://github.com/sensepost/hostapd-mana) </br>
 [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) </br>
+[fluxion](https://github.com/FluxionNetwork/fluxion) (DNS服务器支持)</br>
 [@EastwindZL](https://github.com/EastwindZL) (测试者) </br>
 
 ## ENGLISH VERSION
