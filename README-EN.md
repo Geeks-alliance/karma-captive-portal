@@ -25,6 +25,7 @@ Option: </br>
 [mana-toolkit](https://github.com/sensepost/mana) </br>
 [hostapd-mana](https://github.com/sensepost/hostapd-mana) </br>
 [dnsmasq](http://www.thekelleys.org.uk/dnsmasq/doc.html) </br>
+[fluxion](https://github.com/FluxionNetwork/fluxion) (DNS server helper)</br>
 [@EastwindZL](https://github.com/EastwindZL) (tester) </br>
 
 ## 中文版
