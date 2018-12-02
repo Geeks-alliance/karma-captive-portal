@@ -1,5 +1,5 @@
 # karma-captive-portal
-karma attack And captive portal </br>
+在任何没有连接WIFI的设备上弹出captive-portal!
 
 ## 先决条件
 一张 "Ubiquiti SR-71 , TP-link WN722N 或 Alfa AWUS036NH" 等网卡 </br>
