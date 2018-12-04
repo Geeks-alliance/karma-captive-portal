@@ -2,7 +2,7 @@
 karma attack And captive portal </br>
 
 ## Prerequisites
-"Ubiquiti SR-71 , TP-link WN722N 或 Alfa AWUS036NH" Wireless card </br>
+"Ubiquiti SR-71 , TP-link WN722N or Alfa AWUS036NH" Wireless card </br>
 
 ## Install
 `apt-get install mana-toolkit lighttpd nginx` </br>
